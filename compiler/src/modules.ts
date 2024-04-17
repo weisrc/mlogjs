@@ -24,7 +24,7 @@ import { ICompilerContext } from "./CompilerContext";
 export function createGlobalScope(c: ICompilerContext): IScope {
   const scope = new Scope({
     builtInModules: {
-      [worldModuleName]: createWordModule(),
+      [worldModuleName]: c.registerValue(createWordModule(c)),
     },
   });
 
@@ -55,23 +55,23 @@ export function createGlobalScope(c: ICompilerContext): IScope {
     unchecked: new Unchecked(),
 
     // commands
-    draw: new commands.Draw(),
+    draw: new commands.Draw(c),
     print: new commands.Print(),
     printFlush: new commands.PrintFlush(),
     drawFlush: new commands.DrawFlush(),
     getLink: new commands.GetLink(),
-    control: new commands.Control(),
+    control: new commands.Control(c),
     radar: new commands.Radar(),
     sensor: new commands.Sensor(),
     wait: new commands.Wait(),
-    lookup: new commands.Lookup(),
+    lookup: new commands.Lookup(c),
     packColor: new commands.PackColor(),
     endScript: new commands.End(),
     stopScript: new commands.Stop(),
     unitBind: new commands.UnitBind(),
-    unitControl: new commands.UnitControl(),
+    unitControl: new commands.UnitControl(c),
     unitRadar: new commands.UnitRadar(),
-    unitLocate: new commands.UnitLocate(),
+    unitLocate: new commands.UnitLocate(c),
   };
 
   for (const name in data) {
@@ -83,22 +83,24 @@ export function createGlobalScope(c: ICompilerContext): IScope {
   return scope;
 }
 
-export function createWordModule() {
-  const module = new ObjectValue({
-    getBlock: new commands.GetBlock(),
-    setBlock: new commands.SetBlock(),
-    spawnUnit: new commands.SpawnUnit(),
-    applyStatus: new commands.ApplyStatus(),
-    spawnWave: new commands.SpawnWave(),
-    setRule: new commands.SetRule(),
-    flushMessage: new commands.FlushMessage(),
-    cutscene: new commands.Cutscene(),
-    explosion: new commands.Explosion(),
-    setRate: new commands.SetRate(),
-    fetch: new commands.Fetch(),
-    getFlag: new commands.GetFlag(),
-    setFlag: new commands.SetFlag(),
-    setProp: new commands.SetProp(),
-  });
+export function createWordModule(c: ICompilerContext) {
+  const module = new ObjectValue(
+    ObjectValue.autoRegisterData(c, {
+      getBlock: new commands.GetBlock(c),
+      setBlock: new commands.SetBlock(c),
+      spawnUnit: new commands.SpawnUnit(),
+      applyStatus: new commands.ApplyStatus(c),
+      spawnWave: new commands.SpawnWave(),
+      setRule: new commands.SetRule(c),
+      flushMessage: new commands.FlushMessage(c),
+      cutscene: new commands.Cutscene(c),
+      explosion: new commands.Explosion(),
+      setRate: new commands.SetRate(),
+      fetch: new commands.Fetch(c),
+      getFlag: new commands.GetFlag(),
+      setFlag: new commands.SetFlag(),
+      setProp: new commands.SetProp(),
+    }),
+  );
   return module;
 }

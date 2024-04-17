@@ -1,20 +1,12 @@
 import { camelToDashCase } from "../utils";
-import {
-  EMutability,
-  IScope,
-  IValue,
-  TEOutput,
-  TValueInstructions,
-} from "../types";
-import {
-  IObjectValueData,
-  LiteralValue,
-  ObjectValue,
-  StoreValue,
-} from "../values";
+import { EMutability, IValue, es } from "../types";
+import { LiteralValue, ObjectValue, StoreValue } from "../values";
 import { CompilerError } from "../CompilerError";
+import { ICompilerContext } from "../CompilerContext";
+import { GlobalId, ImmutableId, LoadInstruction } from "../flow";
+import { IBlockCursor } from "../BlockCursor";
 
-const dynamicVars = ["time", "tick"];
+const dynamicVars = ["time", "tick", "unit"];
 
 interface NamespaceMacroOptions {
   changeCasing?: boolean;
@@ -26,8 +18,16 @@ export class NamespaceMacro extends ObjectValue {
     this.changeCasing = changeCasing;
   }
 
-  get(scope: IScope, key: IValue, out?: TEOutput): TValueInstructions<IValue> {
-    if (super.hasProperty(scope, key)) return super.get(scope, key, out);
+  get(
+    c: ICompilerContext,
+    cursor: IBlockCursor,
+    targetId: ImmutableId,
+    propId: ImmutableId,
+    node: es.Node,
+  ): ImmutableId {
+    const key = c.getValue(propId);
+    if (key && super.hasProperty(c, key))
+      return super.get(c, cursor, targetId, propId, node);
 
     if (!(key instanceof LiteralValue) || !key.isString())
       throw new CompilerError(
@@ -39,12 +39,20 @@ export class NamespaceMacro extends ObjectValue {
       ? EMutability.readonly
       : EMutability.constant;
 
-    const result = new StoreValue(`@${symbolName}`, mutability);
+    const store = new StoreValue(`@${symbolName}`, mutability);
+    const out = new ImmutableId();
+    if (mutability === EMutability.constant) {
+      c.setValue(out, store);
+    } else {
+      const globalId = new GlobalId();
+      c.setValue(globalId, store);
+      cursor.addInstruction(new LoadInstruction(globalId, out, node));
+    }
 
-    return [result, []];
+    return out;
   }
 
-  hasProperty(scope: IScope, prop: IValue): boolean {
+  hasProperty(c: ICompilerContext, prop: IValue): boolean {
     return prop instanceof LiteralValue && prop.isString();
   }
 }
@@ -52,9 +60,5 @@ export class NamespaceMacro extends ObjectValue {
 export class VarsNamespace extends NamespaceMacro {
   constructor() {
     super();
-    Object.assign<IObjectValueData, IObjectValueData>(this.data, {
-      unit: new StoreValue("@unit", EMutability.readonly),
-      this: new StoreValue("@this", EMutability.constant),
-    });
   }
 }

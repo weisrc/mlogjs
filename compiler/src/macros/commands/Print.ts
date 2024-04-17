@@ -1,22 +1,18 @@
-import { InstructionBase } from "../../instructions";
-import { IInstruction, IValue } from "../../types";
 import { LiteralValue } from "../../values";
-import { isTemplateObjectArray } from "../../utils";
-import { ImmutableId } from "../../flow";
+import { isTemplateObjectArray, nullId } from "../../utils";
+import { NativePrintInstruction } from "../../flow";
 import { MacroFunction } from "../Function";
 
-export class Print extends MacroFunction<null> {
+export class Print extends MacroFunction {
   constructor() {
-    super((c, out, ...values: IValue[]) => {
-      const [first] = values;
-      const inst: IInstruction[] = [];
+    super((c, cursor, loc, ...values) => {
+      const first = c.getValue(values[0]);
 
-      if (!isTemplateObjectArray(first)) {
+      if (!isTemplateObjectArray(c, first)) {
         for (const value of values) {
-          inst.push(new InstructionBase("print", value));
+          cursor.addInstruction(new NativePrintInstruction(value, loc));
         }
-
-        return inst;
+        return nullId;
       }
 
       // `first` is likely a template strings array
@@ -24,19 +20,21 @@ export class Print extends MacroFunction<null> {
       const { length } = first.data;
 
       for (let i = 1; i < values.length; i++) {
-        const id = new ImmutableId();
-        first.get(c, new LiteralValue(i - 1), id);
+        const id = first.data[i - 1];
         const string = c.getValue(id) as LiteralValue<string>;
 
-        if (string.data) inst.push(new InstructionBase("print", string));
-        inst.push(new InstructionBase("print", values[i]));
+        if (string.data)
+          cursor.addInstruction(new NativePrintInstruction(id, loc));
+        cursor.addInstruction(new NativePrintInstruction(values[i], loc));
       }
 
-      const tailId = new ImmutableId();
-      first.get(c, new LiteralValue(length.data - 1), tailId);
+      const tailId = first.data[length.data - 1];
+
       const tail = c.getValue(tailId) as LiteralValue<string>;
-      if (tail.data) inst.push(new InstructionBase("print", tail));
-      return inst;
+      if (tail.data)
+        cursor.addInstruction(new NativePrintInstruction(tailId, loc));
+
+      return nullId;
     });
   }
 }

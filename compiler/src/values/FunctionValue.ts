@@ -83,7 +83,7 @@ export class FunctionValue extends VoidValue implements IFunctionValue {
   }: {
     scope: IScope;
     body: es.BlockStatement;
-    t: Compiler;
+    c: Compiler;
     params: es.Identifier[];
     out?: TEOutput;
   }) {
