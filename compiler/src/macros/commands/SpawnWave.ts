@@ -19,8 +19,10 @@ export class SpawnWave extends MacroFunction {
           loc,
         );
 
-      if (!x) throw new CompilerError("Missing argument: x", loc);
-      if (!y) throw new CompilerError("Missing argument: y", loc);
+      if (!natural.data) {
+        if (!x) throw new CompilerError("Missing argument: x", loc);
+        if (!y) throw new CompilerError("Missing argument: y", loc);
+      }
 
       cursor.addInstruction(
         new NativeInstruction(
