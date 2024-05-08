@@ -62,7 +62,6 @@ importers:
       '@types/markdown-it-container': ^2.0.5
       '@types/node': ^18.16.19
       '@types/splitpanes': ^2.2.2
-      flexsearch: ^0.7.31
       markdown-it: ^13.0.1
       markdown-it-container: ^3.0.0
       mlogjs: workspace:^
@@ -86,7 +85,6 @@ importers:
       '@babel/types': 7.22.5
       '@types/node': 18.16.19
       '@types/splitpanes': 2.2.2
-      flexsearch: 0.7.31
       markdown-it: 13.0.1
       vite: 5.2.11_@types+node@18.16.19
       vitepress: 1.1.4_@types+node@18.16.19
@@ -2737,10 +2735,6 @@ packages:
 
   /flatted/3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
-    dev: true
-
-  /flexsearch/0.7.31:
-    resolution: {integrity: sha512-XGozTsMPYkm+6b5QL3Z9wQcJjNYxp0CYn3U1gO7dwD6PAqU1SVWZxI9CCg3z+ml3YfqdPnrBehaBrnH2AGKbNA==}
     dev: true
 
   /focus-trap/7.5.4:
