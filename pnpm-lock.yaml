@@ -66,7 +66,7 @@ importers:
       markdown-it-container: ^3.0.0
       mlogjs: workspace:^
       monaco-editor: ^0.44.0
-      posthog-js: ^1.93.6
+      posthog-js: ^1.131.3
       splitpanes: ^3.1.5
       vite: ^5.2.11
       vitepress: 1.1.4
@@ -78,7 +78,7 @@ importers:
       markdown-it-container: 3.0.0
       mlogjs: link:../compiler
       monaco-editor: 0.44.0
-      posthog-js: 1.93.6
+      posthog-js: 1.131.3
       splitpanes: 3.1.5
     devDependencies:
       '@babel/parser': 7.22.7
@@ -3930,15 +3930,15 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.2.0
 
-  /posthog-js/1.93.6:
-    resolution: {integrity: sha512-Jou2awqQH5PDtDe9hZxpe9PO4D0uUOU7eA1lGni4pBxJckeA94P7WF3ieQj355xY96ZcXVQmGJykypO/FyBvpQ==}
+  /posthog-js/1.131.3:
+    resolution: {integrity: sha512-ds/TADDS+rT/WgUyeW4cJ+X+fX+O1KdkOyssNI/tP90PrFf0IJsck5B42YOLhfz87U2vgTyBaKHkdlMgWuOFog==}
     dependencies:
       fflate: 0.4.8
+      preact: 10.21.0
     dev: false
 
   /preact/10.21.0:
     resolution: {integrity: sha512-aQAIxtzWEwH8ou+OovWVSVNlFImL7xUCwJX3YMqA3U8iKCNC34999fFOnWjYNsylgfPgMexpbk7WYOLtKr/mxg==}
-    dev: true
 
   /prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
