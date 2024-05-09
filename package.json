@@ -15,5 +15,13 @@
     "prettier": "^3.0.0",
     "prettier-plugin-jsdoc": "^1.0.1",
     "typescript": "^5.2.2"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search",
+        "search-insights"
+      ]
+    }
   }
 }

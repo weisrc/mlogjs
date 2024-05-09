@@ -53,13 +53,14 @@ const optionsRef = computed<CompilerOptions>(() => ({
 const isMobile = useMediaQuery("(max-width: 800px)");
 const [sizes, handlePaneResize] = usePaneSizes(isMobile);
 const code = ref("");
+const editorPath = ref("script.ts");
 
 const editorRef = shallowRef<monaco.editor.IStandaloneCodeEditor>();
 const outEditorRef = shallowRef<monaco.editor.IStandaloneCodeEditor>();
 const persistentFiles = usePersistentFiles(editorRef, outEditorRef);
 provide("virtual-fs", persistentFiles);
 const { currentFile } = persistentFiles;
-useFileSaver(currentFile, code);
+useFileSaver(currentFile, code, editorPath);
 
 const monacoRef = useMonaco();
 provideMonaco({ monacoRef });
@@ -118,6 +119,27 @@ watchEffect(onCleanup => {
   });
 });
 
+watchEffect(onCleanup => {
+  const monaco = monacoRef.value;
+  const editor = editorRef.value;
+  const outEditor = outEditorRef.value;
+  if (!monaco || !editor || !outEditor) return;
+
+  // this is a hack to work around
+  // https://github.com/microsoft/monaco-editor/issues/2976
+  const disposable = editor.onDidChangeModel(e => {
+    const models = monaco.editor.getModels();
+    for (const model of models) {
+      if (model === editor.getModel() || model === outEditor.getModel())
+        continue;
+
+      model.dispose();
+    }
+  });
+
+  onCleanup(() => disposable.dispose());
+});
+
 function onReady(editor: monaco.editor.IStandaloneCodeEditor) {
   editorRef.value = editor;
 }
@@ -161,6 +183,7 @@ function copyToClipboard() {
         <MonacoEditor
           :language="language"
           v-model:value="code"
+          :path="editorPath"
           :options="editorOptions"
           @ready="onReady"
         ></MonacoEditor>
