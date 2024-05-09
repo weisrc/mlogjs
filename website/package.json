@@ -20,7 +20,7 @@
     "markdown-it": "^13.0.1",
     "vite": "^5.2.11",
     "vitepress": "1.1.4",
-    "vue": "^3.3.4"
+    "vue": "^3.4.27"
   },
   "dependencies": {
     "@jeanjpnm/monaco-vue": "^0.1.1",
