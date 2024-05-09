@@ -1,5 +1,5 @@
 import { shallowRef, watch, type Ref, type ShallowRef } from "vue";
-import { debounce } from "../util";
+import { debounce, toEditorPath } from "../util";
 import type * as monaco from "monaco-editor";
 export interface FileData {
   id?: number;
@@ -110,9 +110,11 @@ export function usePersistentFiles(
 export function useFileSaver(
   currentFile: Ref<PersistentFile | undefined>,
   code: Ref<string>,
+  editorPath: Ref<string>,
 ) {
   watch(currentFile, file => {
-    if (file?.data?.content == undefined) return;
+    if (file?.data == undefined) return;
+    editorPath.value = toEditorPath("user_scripts/" + file.name);
     code.value = file.data.content;
   });
 
