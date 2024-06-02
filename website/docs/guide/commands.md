@@ -433,6 +433,10 @@ Controls the unit bound to the processor
 
   Makes the unit bound to this processor drop it's held items onto the given target
 
+  Using this command sets the unit's action timeout.
+
+  This command will be on cooldown for 1.5 seconds after the timeout has been set.
+
   - `target` - Where to drop the items, if `Blocks.air`, the unit will throw it's items away
   - `amount` - How many items should be dropped
 
@@ -442,6 +446,10 @@ Controls the unit bound to the processor
 - #### `unitControl.itemTake`
 
   Makes the unit bound to this processor take items from a building
+
+  Using this command sets the unit's action timeout.
+
+  This command will be on cooldown for 1.5 seconds after the timeout has been set.
 
   - `target` - The building that will have it's items taken
   - `item` - The kind of item to take
@@ -454,12 +462,20 @@ Controls the unit bound to the processor
 
   Makes the unit bound to this processor drop one entity from it's payload
 
+  Using this command sets the unit's action timeout.
+
+  This command will be on cooldown for 1.5 seconds after the timeout has been set.
+
   ::: command-example
   :::
 
 - #### `unitControl.payTake`
 
   Makes the unit bound to this processor take an entity into it's payload
+
+  Using this command sets the unit's action timeout.
+
+  This command will be on cooldown for 1.5 seconds after the timeout has been set.
 
   - `takeUnits` - Whether to take units or buildings
 

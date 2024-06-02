@@ -790,6 +790,11 @@ declare global {
      * Makes the unit bound to this processor drop it's held items onto the
      * given target
      *
+     * Using this command sets the unit's action timeout.
+     *
+     * This command will be on cooldown for 1.5 seconds after the timeout has
+     * been set.
+     *
      * @param target Where to drop the items, if `Blocks.air`, the unit will
      *   throw it's items away
      * @param amount How many items should be dropped
@@ -816,6 +821,11 @@ declare global {
     /**
      * Makes the unit bound to this processor take items from a building
      *
+     * Using this command sets the unit's action timeout.
+     *
+     * This command will be on cooldown for 1.5 seconds after the timeout has
+     * been set.
+     *
      * @param target The building that will have it's items taken
      * @param item The kind of item to take
      * @param amount How many items should be taken
@@ -839,6 +849,11 @@ declare global {
     /**
      * Makes the unit bound to this processor drop one entity from it's payload
      *
+     * Using this command sets the unit's action timeout.
+     *
+     * This command will be on cooldown for 1.5 seconds after the timeout has
+     * been set.
+     *
      * ```js
      * unitControl.payDrop();
      * ```
@@ -847,6 +862,11 @@ declare global {
 
     /**
      * Makes the unit bound to this processor take an entity into it's payload
+     *
+     * Using this command sets the unit's action timeout.
+     *
+     * This command will be on cooldown for 1.5 seconds after the timeout has
+     * been set.
      *
      * @param options.takeUnits Whether to take units or buildings
      *
