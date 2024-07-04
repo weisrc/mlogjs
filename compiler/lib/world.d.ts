@@ -738,10 +738,26 @@ export function setProp(target: BasicBuilding): SettableBuilding;
 export function setProp(target: BasicUnit): SettableUnit;
 
 /**
- * Synchronizes an mlog register with the server. Can be called up to 20 times
- * per second.
+ * Allows code running on the server to asynchronously send its version of a
+ * single register to the client.
+ *
+ * Can be used up to 20 times per second.
  */
-export function sync(variable: unknown): void;
+export class SyncLock<T extends number | string | symbol | undefined> {
+  /**
+   * The value held by this sync lock, synchronized whenever `sendToClients` is
+   * called.
+   */
+  value: T;
+
+  constructor(value?: T);
+
+  /**
+   * When running on the server, sends the value of this sync lock to every
+   * client in the game.
+   */
+  sendToClients(): void;
+}
 
 export namespace effect {
   function warn(x: number, y: number): void;

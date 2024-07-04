@@ -94,7 +94,7 @@ export function createWordModule() {
     getFlag: new commands.GetFlag(),
     setFlag: new commands.SetFlag(),
     setProp: new commands.SetProp(),
-    sync: new commands.Sync(),
+    SyncLock: new commands.SyncLockConstructor(),
     effect: new commands.Effect(),
     localePrint: new commands.LocalePrint(),
     Marker: new MarkerConstructor(),
