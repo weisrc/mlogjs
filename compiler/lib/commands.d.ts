@@ -1,10 +1,11 @@
-import "./kind";
+import "./kinds";
 import {
   TDrawPrintAlign,
   TRadarFilter,
   TRadarSort,
   TUnitLocateBuildingGroup,
-} from "./util";
+} from "mlogjs:types";
+
 declare global {
   /**
    * Appends the items to the global text buffer, calling this function on its
