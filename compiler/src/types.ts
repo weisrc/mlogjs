@@ -48,7 +48,11 @@ export interface IInstruction {
  */
 export type TEOutput = IValue | string;
 
-export type TWriteCallback = (value: ImmutableId, callerNode: es.Node) => void;
+export interface IWriteableHandler {
+  read(): ImmutableId;
+  write(value: ImmutableId, callerNode: es.Node): void;
+}
+
 export type TDeclareCallback = (
   init: ImmutableId | undefined,
   callerNode: es.Node,
@@ -67,7 +71,7 @@ export type THandler = {
     arg: any,
   ): ImmutableId;
 
-  handleWrite?(
+  handleWriteable?(
     compilerContext: ICompilerContext,
     scope: IScope,
     cursor: IBlockCursor,
@@ -75,7 +79,7 @@ export type THandler = {
     node: any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     arg: any,
-  ): TWriteCallback;
+  ): IWriteableHandler;
 
   handleDeclaration?(
     compilerContext: ICompilerContext,
