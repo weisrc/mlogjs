@@ -3,7 +3,7 @@ import { EMutability, IValue, es } from "../types";
 import { LiteralValue, ObjectValue, StoreValue } from "../values";
 import { CompilerError } from "../CompilerError";
 import { ICompilerContext } from "../CompilerContext";
-import { GlobalId, ImmutableId, LoadInstruction } from "../flow";
+import { ImmutableId, LoadInstruction } from "../flow";
 import { IBlockCursor } from "../BlockCursor";
 
 const dynamicVars = ["time", "tick", "unit"];
@@ -40,11 +40,11 @@ export class NamespaceMacro extends ObjectValue {
       : EMutability.constant;
 
     const store = new StoreValue(`@${symbolName}`, mutability);
-    const out = new ImmutableId();
+    const out = c.createImmutableId();
     if (mutability === EMutability.constant) {
       c.setValue(out, store);
     } else {
-      const globalId = new GlobalId();
+      const globalId = c.createGlobalId();
       c.setValue(globalId, store);
       cursor.addInstruction(new LoadInstruction(globalId, out, node));
     }

@@ -31,7 +31,7 @@ export class StoreValue extends BaseValue implements IValue {
     loc: Location,
   ): ImmutableId {
     const prop = c.getValue(propId);
-    const out = new ImmutableId();
+    const out = c.createImmutableId();
 
     if (prop) {
       const thisCoordName = getThisCoordName(this, prop);
@@ -45,7 +45,7 @@ export class StoreValue extends BaseValue implements IValue {
     }
 
     if (prop instanceof LiteralValue && prop.isString()) {
-      const senseId = new ImmutableId();
+      const senseId = c.createImmutableId();
       c.setValue(senseId, new StoreValue(formatSenseablePropName(prop.data)));
 
       cursor.addInstruction(

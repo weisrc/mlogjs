@@ -14,7 +14,7 @@ export class Lookup extends ObjectValue {
         liquid: { args: ["index"] },
       },
       handler(c, overload, cursor, loc, index) {
-        const out = new ImmutableId();
+        const out = c.createImmutableId();
         cursor.addInstruction(
           new NativeInstruction(
             ["lookup", overload, out, index],

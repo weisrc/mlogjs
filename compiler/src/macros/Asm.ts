@@ -1,6 +1,6 @@
 import { CompilerError } from "../CompilerError";
 import { AsmInstruction, ImmutableId } from "../flow";
-import { isTemplateObjectArray, nullId } from "../utils";
+import { isTemplateObjectArray } from "../utils";
 import { LiteralValue } from "../values";
 import { MacroFunction } from "./Function";
 
@@ -36,7 +36,7 @@ export class Asm extends MacroFunction {
       const lines = formatInstructions(args);
 
       // return [null, formatInstructions(args)];
-      return nullId;
+      return c.nullId;
     });
   }
 }

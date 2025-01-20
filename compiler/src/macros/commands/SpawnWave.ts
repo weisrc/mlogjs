@@ -1,6 +1,5 @@
 import { CompilerError } from "../../CompilerError";
 import { NativeInstruction } from "../../flow";
-import { nullId } from "../../utils";
 import { LiteralValue } from "../../values";
 import { MacroFunction } from "../Function";
 
@@ -33,7 +32,7 @@ export class SpawnWave extends MacroFunction {
         ),
       );
 
-      return nullId;
+      return c.nullId;
     });
   }
 }
